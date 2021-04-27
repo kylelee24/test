@@ -1,0 +1,22 @@
+name: build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: ACR build
+        id: acr
+        uses: ams0/acr-task-github-action@v1
+        with:
+          service_principal: ${{ secrets.service_principal }}
+          service_principal_password: ${{ secrets.service_principal_password }}
+          tenant: ${{ secrets.tenant }}
+          registry: ${{ secrets.registry }}
+          repository: radar-api
+          image: radar-api
+          folder: .
+          dockerfile: ./Dockerfile
