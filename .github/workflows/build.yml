@@ -1,7 +1,7 @@
-name: build
+name: Docker build and push
 on:
   workflow_run:
-    workflows: ["test"]
+    workflows: ["Run tests"]
     branches: [main]
     types: 
       - completed
