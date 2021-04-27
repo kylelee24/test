@@ -1,0 +1,33 @@
+{
+  "port": "PORT",
+  "host": "HOST",
+  "authentication": {
+    "secret": "AUTH_SECRET",
+    "entity": "user",
+    "service": "users",
+    "authStrategies": ["jwt"],
+    "allowedDomains": [ "softchoice.com" ],
+    "jwtOptions": {
+      "header": { "typ": "access" },
+      "audience": "AUTH_AUDIENCE",
+      "issuer": "radar",
+      "algorithm": "HS256",
+      "expiresIn": "30m"
+    },
+    "oauth": {
+      "redirect": "OAUTH_SUCCESS_REDIRECT_URL",
+      "google": {
+        "key": "OAUTH_GOOGLE_KEY",
+        "secret": "OAUTH_GOOGLE_SECRET",
+        "custom_params": {
+          "hd": "softchoice.com"
+        },
+        "scope": [
+          "openid",
+          "https://www.googleapis.com/auth/userinfo.profile",
+          "https://www.googleapis.com/auth/userinfo.email"
+        ]
+      }
+    }
+  }
+}

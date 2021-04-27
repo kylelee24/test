@@ -1,0 +1,4 @@
+[{
+  "methods": ["get", "create"],
+  "authenticated": false
+}]
