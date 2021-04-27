@@ -6,7 +6,8 @@ on:
     types: 
       - completed
 jobs:
-  build:
+  on-success:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
