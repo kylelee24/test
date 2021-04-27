@@ -14,10 +14,13 @@ jobs:
         uses: azure/docker-login@v1
         with:
           login-server: crsharedradar.azurecr.io
-          username: crsharedradar
-          password: 5XccmvXetau42+8dpj9U9vGfSO9UzYv3
+          username: 107e6c25-b672-4939-ba6a-8e1c45802ce0
+          password: N_LPAJwnD6ZrbSXkdCsGac9SgpBfnUA2Or
+          # username: crsharedradar
+          # password: 5XccmvXetau42+8dpj9U9vGfSO9UzYv3
 
       - run: |
           docker build . -t crsharedradar.azurecr.io/radar-api:${{ github.sha }}
           docker push crsharedradar.azurecr.io/radar-api:${{ github.sha }}
+          docker tag crsharedradar.azurecr.io/radar-api:${{ github.sha }} crsharedradar.azurecr.io/radar-api:latest
           docker push crsharedradar.azurecr.io/radar-api:latest
