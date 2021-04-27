@@ -9,20 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      # - name: ACR build
-      #   id: acr
-      #   uses: ams0/acr-task-github-action@v2
-      #   with:
-      #     service_principal: ${{ secrets.service_principal }}
-      #     service_principal_password: ${{ secrets.service_principal_password }}
-      #     tenant: ${{ secrets.tenant }}
-      #     # registry: ${{ secrets.registry }}
-      #     registry: crsharedradar
-      #     repository: radar-api
-      #     image: radar-api
-      #     folder: .
-      #     dockerfile: ./Dockerfile
-      - name: ACR build
+      - uses: actions/checkout@v2
+      - name: Docker login
         uses: azure/docker-login@v1
         with:
           login-server: crsharedradar.azurecr.io
