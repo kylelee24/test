@@ -10,4 +10,6 @@ az ad sp create-for-rbac --name "sp-shared-radar-acr" --role="AcrPush" --scopes=
   "password": "N_LPAJwnD6ZrbSXkdCsGac9SgpBfnUA2Or",
   "tenant": "9cfbedc9-c7e4-46e2-be3e-d7fa81d0798a"
 }
+# Need to grant read access as well at the same scope
 ```
+
