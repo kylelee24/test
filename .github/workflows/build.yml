@@ -9,16 +9,27 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
+      # - name: ACR build
+      #   id: acr
+      #   uses: ams0/acr-task-github-action@v2
+      #   with:
+      #     service_principal: ${{ secrets.service_principal }}
+      #     service_principal_password: ${{ secrets.service_principal_password }}
+      #     tenant: ${{ secrets.tenant }}
+      #     # registry: ${{ secrets.registry }}
+      #     registry: crsharedradar
+      #     repository: radar-api
+      #     image: radar-api
+      #     folder: .
+      #     dockerfile: ./Dockerfile
       - name: ACR build
-        id: acr
-        uses: ams0/acr-task-github-action@v2
+      - uses: azure/docker-login@v1
         with:
-          service_principal: ${{ secrets.service_principal }}
-          service_principal_password: ${{ secrets.service_principal_password }}
-          tenant: ${{ secrets.tenant }}
-          # registry: ${{ secrets.registry }}
-          registry: crsharedradar
-          repository: radar-api
-          image: radar-api
-          folder: .
-          dockerfile: ./Dockerfile
+          login-server: crsharedradar.azurecr.io
+          username: crsharedradar
+          password: 5XccmvXetau42+8dpj9U9vGfSO9UzYv3
+
+      - run: |
+          docker build . -t crsharedradar.azurecr.io/radar-api:${{ github.sha }}
+          docker push crsharedradar.azurecr.io/radar-api:${{ github.sha }}
+          docker push crsharedradar.azurecr.io/radar-api:latest
