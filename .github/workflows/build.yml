@@ -20,7 +20,8 @@ jobs:
           service_principal: ${{ secrets.service_principal }}
           service_principal_password: ${{ secrets.service_principal_password }}
           tenant: ${{ secrets.tenant }}
-          registry: ${{ secrets.registry }}
+          # registry: ${{ secrets.registry }}
+          registry: crsharedradar
           repository: radar-api
           image: radar-api
           folder: .
