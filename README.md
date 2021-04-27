@@ -38,7 +38,3 @@ Stop database:
 ```bash
 ./scripts/stop-postgres.sh
 ```
-
-### Test
-
-hello

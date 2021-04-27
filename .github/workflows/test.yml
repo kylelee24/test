@@ -4,10 +4,6 @@ on:
     paths-ignore:
       - docs/**
       - README.md
-  pull_request:
-    paths-ignore:
-      - docs/**
-      - README.md
 jobs:
   test:
     runs-on: ubuntu-20.04
