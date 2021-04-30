@@ -16,13 +16,21 @@ jobs:
         with:
           repository: softchoice-corp/ctt-radar-terraform
           ref: main
+          # NOTE: PAT was not working
           # token: ${{ secrets.CLONE_PERSONAL_ACCESS_TOKEN }}
-          # path: terraform
           ssh-key: ${{ secrets.GIT_CLONE_SSH_KEY }}
       - run: ls -lR
       - run: terraform version
       - run: az version
-# DUMMY LINE      
-# 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
-# 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
-# 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 
+      - shell: bash
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        run: |
+          env=${GITHUB_BASE_REF/\//-}
+          env=${env:0:10}
+          env=${env%-}
+          terraform init -backend-config="storage_account_name=${{ secrets.TF_STATE_PR_STGACCT_NAME }}"  -backend-config="key=${env}-support.terraform.tfstate" -backend-config="resource_group_name=${{ secrets.TF_STATE_PR_RG_NAME }}"
+          terraform plan -var-file=env/pr.tfvars -var "oauth_google_key=${{ secrets.OAUTH_GOOGLE_KEY }}" -var "oauth_google_secret=${{ secrets.OAUTH_GOOGLE_SECRET }}" -var "postgresql_administrator_password=P@ssw0rd1234" -var "env=${env}"
