@@ -26,7 +26,7 @@ jobs:
           env=${env%-}
 
           terraform init -backend-config="storage_account_name=${{ secrets.TF_STATE_PR_STGACCT_NAME }}"  -backend-config="key=${env}-app.terraform.tfstate" -backend-config="resource_group_name=${{ secrets.TF_STATE_PR_RG_NAME }}"
-          terraform destroy -var-file=env/pr.tfvars -var "env=${env}" -var "app_service_radar-api_docker_tag=${env}" -var "app_service_radar-client_docker_tag=${env}" -auto-approve
+          terraform destroy -var-file=env/pr.tfvars -var "env=${env}" -var "app_service_radar-api_docker_tag=${env}" -var "app_service_radar-client_docker_tag=latest" -auto-approve
         working-directory: ./terraform/radar-app
       - name: Destroy radar-support
         env:

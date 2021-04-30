@@ -68,6 +68,8 @@ jobs:
           env=${env:0:10}
           env=${env%-}
 
+          pushd ./terraform/radar-app
           terraform init -backend-config="storage_account_name=${{ secrets.TF_STATE_PR_STGACCT_NAME }}"  -backend-config="key=${env}-app.terraform.tfstate" -backend-config="resource_group_name=${{ secrets.TF_STATE_PR_RG_NAME }}"
-          terraform apply -var-file=env/pr.tfvars -var "env=${env}" -var "app_service_radar-api_docker_tag=${env}" -var "app_service_radar-client_docker_tag=${env}" -auto-approve
-        working-directory: ./terraform/radar-app
+          terraform apply -var-file=env/pr.tfvars -var "env=${env}" -var "app_service_radar-api_docker_tag=${env}" -var "app_service_radar-client_docker_tag=latest" -auto-approve
+          popd
+        # working-directory: ./terraform/radar-app
