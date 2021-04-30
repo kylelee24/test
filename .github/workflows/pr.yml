@@ -16,8 +16,10 @@ jobs:
         with:
           repository: softchoice-corp/ctt-radar-terraform
           ref: main
-          token: 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
+          token: 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
       - run: ls -lR
       - run: terraform version
       - run: az version
 # DUMMY LINE      
+# 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
+# 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
