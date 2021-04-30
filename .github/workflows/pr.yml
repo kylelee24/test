@@ -3,10 +3,7 @@ name: Deploy pull request environment
 # only trigger on pull request closed events
 on:
   pull_request:
-    types: [ opened, edited, synchronize ]
-    # Maybe should just be opened as it is just for CD. Terraform does not need to run again.
-    # Maybe label to trigger reploy as a hack
-    # types: [ opened ]
+    types: [ opened ]
 
 jobs:
   build:
@@ -36,7 +33,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: softchoice-corp/ctt-radar-terraform
-          ref: pr-env
+          ref: main
           # NOTE: PAT was not working
           # token: ${{ secrets.CLONE_PERSONAL_ACCESS_TOKEN }}
           ssh-key: ${{ secrets.GIT_CLONE_SSH_KEY }}
@@ -73,3 +70,4 @@ jobs:
           terraform init -backend-config="storage_account_name=${{ secrets.TF_STATE_PR_STGACCT_NAME }}"  -backend-config="key=${env}-app.terraform.tfstate" -backend-config="resource_group_name=${{ secrets.TF_STATE_PR_RG_NAME }}"
           terraform apply -var-file=env/pr.tfvars -var "env=${env}" -var "app_service_radar-api_docker_tag=${env}" -var "app_service_radar-client_docker_tag=latest" -auto-approve
         working-directory: ./terraform/radar-app
+      # TODO - Google OAUTH call back url creation
