@@ -17,6 +17,7 @@ jobs:
           repository: softchoice-corp/ctt-radar-terraform
           ref: main
           token: ${{ secrets.CLONE_PERSONAL_ACCESS_TOKEN }}
+          submodules: true
       - run: ls -lR
       - run: terraform version
       - run: az version
