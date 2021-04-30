@@ -12,11 +12,11 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
         with:
           repository: softchoice-corp/ctt-radar-terraform
           ref: main
-          token: "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"
+          token: ${{ secrets.CLONE_PERSONAL_ACCESS_TOKEN }}
       - run: ls -lR
       - run: terraform version
       - run: az version
