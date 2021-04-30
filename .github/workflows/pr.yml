@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: softchoice-corp/ctt-radar-terraform
-          ref: main
+          # ref: main
           token: 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
       - run: ls -lR
       - run: terraform version
