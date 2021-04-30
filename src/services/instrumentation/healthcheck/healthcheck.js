@@ -1,7 +1,13 @@
+const policies = require('./policies')
+
 class HealthCheckService {
+  setup (app) {
+    this.policies = policies
+  }
+
   async find () {
     return {
-      message: 'Ping... ping... is that a whale?'
+      message: 'Looking? Found someone, you have, I would say, hmmm? KYLE IS TESTING'
     }
   }
 }
