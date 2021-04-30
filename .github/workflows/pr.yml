@@ -16,8 +16,9 @@ jobs:
         with:
           repository: softchoice-corp/ctt-radar-terraform
           ref: main
-          token: ${{ secrets.CLONE_PERSONAL_ACCESS_TOKEN }}
-          path: terraform
+          # token: ${{ secrets.CLONE_PERSONAL_ACCESS_TOKEN }}
+          # path: terraform
+          ssh-key: ${{ secrets.GIT_CLONE_SSH_KEY }}
       - run: ls -lR
       - run: terraform version
       - run: az version
