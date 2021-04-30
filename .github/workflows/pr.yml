@@ -18,3 +18,4 @@ jobs:
       - run: ls -lR
       - run: terraform version
       - run: az version
+# DUMMY LINE      
