@@ -3,18 +3,18 @@ name: Deploy pull request environment
 # only trigger on pull request closed events
 on:
   pull_request:
-    types: [ opened, edited ]
+    types: [ opened, edited, synchronize]
+    # Maybe should just be opened as it is just for CD. Terraform does not need to run again.
+    # Maybe label to trigger reploy as a hack
+    # types: [ opened ]
 
 jobs:
   deploy:
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        node-version: [15.x]
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: github.com:softchoice-corp/ctt-radar-terraform
+          repository: softchoice-corp/ctt-radar-terraform
           ref: main
       - run: ls -lR
       - run: terraform version
