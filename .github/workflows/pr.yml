@@ -44,8 +44,10 @@ jobs:
 
           terraform init -backend-config="storage_account_name=${{ secrets.TF_STATE_PR_STGACCT_NAME }}"  -backend-config="key=${env}-app.terraform.tfstate" -backend-config="resource_group_name=${{ secrets.TF_STATE_PR_RG_NAME }}"
           terraform apply -var-file=env/pr.tfvars -var "env=${env}" -var "app_service_radar-api_docker_tag=${env}" -var "app_service_radar-client_docker_tag=latest" -auto-approve
+          echo
+
 
           RADAR_API_URL=`terraform output app_service_radar-api_url`
-          echo "The authorized redirect URI needs to be manually added in the GCP Console - https://${RADAR_API_URL//\"/}/oauth/google/callback"
-
+          echo "::warning The https://${RADAR_API_URL//\"/}/oauth/google/callback" authorized redirect URI needs to be manually added in the GCP Console - https://console.cloud.google.com/apis/credentials/oauthclient/622084865779-v3etos2ko5g57c58k992lilr1pq1rk7b.apps.googleusercontent.com?authuser=0&project=innovation-ctt"
         working-directory: ./terraform/radar-app
+
