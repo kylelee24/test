@@ -9,7 +9,7 @@ on:
     types: [ opened, synchronize ]
 jobs:
   build:
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'pull_request' }}
     env:
       APPLICATION: radar-api
     runs-on: ubuntu-20.04
@@ -21,10 +21,11 @@ jobs:
           login-server: ${{ secrets.CONTAINER_REGISTRY }}
           username: ${{ secrets.SERVICE_PRINCIPAL }}
           password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
-      - run: |
+      - name: Docker build and push
+        # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: |
           env
           docker build . -t ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
           docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
           docker tag ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }} ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:latest
           docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:latest
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
