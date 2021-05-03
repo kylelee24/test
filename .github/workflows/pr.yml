@@ -46,6 +46,6 @@ jobs:
           terraform apply -var-file=env/pr.tfvars -var "env=${env}" -var "app_service_radar-api_docker_tag=${env}" -var "app_service_radar-client_docker_tag=latest" -auto-approve
 
           RADAR_API_URL=`terraform output app_service_radar-api_url`
-          echo "The authorized redirect URI needs to be manually added in the GCP Console - https://${RADAR_API_URL}/oauth/google/callback"
+          echo "The authorized redirect URI needs to be manually added in the GCP Console - https://${RADAR_API_URL//\"/}/oauth/google/callback"
 
         working-directory: ./terraform/radar-app
