@@ -48,6 +48,6 @@ jobs:
 
 
           RADAR_API_URL=`terraform output app_service_radar-api_url`
-          echo "::warning The https://${RADAR_API_URL//\"/}/oauth/google/callback" authorized redirect URI needs to be manually added in the GCP Console - https://console.cloud.google.com/apis/credentials/oauthclient/622084865779-v3etos2ko5g57c58k992lilr1pq1rk7b.apps.googleusercontent.com?authuser=0&project=innovation-ctt"
+          echo "::warning The https://${RADAR_API_URL//\"/}/oauth/google/callback authorized redirect URI needs to be manually added in the GCP Console - https://console.cloud.google.com/apis/credentials/oauthclient/622084865779-v3etos2ko5g57c58k992lilr1pq1rk7b.apps.googleusercontent.com?authuser=0&project=innovation-ctt"
         working-directory: ./terraform/radar-app
 
