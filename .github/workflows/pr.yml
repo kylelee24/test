@@ -1,6 +1,5 @@
 name: Deploy pull request environment
 
-# only trigger on pull request closed events
 on:
   pull_request:
     types: [ opened ]
