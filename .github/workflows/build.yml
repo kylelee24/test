@@ -5,9 +5,11 @@ on:
     branches: [main]
     types: 
       - completed
+  pull_request:
+    types: [ opened, synchronize ]
 jobs:
-  on-success:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'pull_request' }}
     env:
       APPLICATION: radar-api
     runs-on: ubuntu-20.04
@@ -19,8 +21,25 @@ jobs:
           login-server: ${{ secrets.CONTAINER_REGISTRY }}
           username: ${{ secrets.SERVICE_PRINCIPAL }}
           password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
-      - run: |
+      - name: Docker build and push
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          tag=latest
+
           docker build . -t ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
           docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
-          docker tag ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }} ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:latest
-          docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:latest
+          docker tag ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }} ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${tag}
+          docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${tag}
+          echo "Docker tags: ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}, ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${tag}"
+      - name: Docker build and push (Pull Request)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          tag=${GITHUB_HEAD_REF/\//-}
+          tag=${tag:0:10}
+          tag=${tag%-}
+          
+          docker build . -t ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
+          docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
+          docker tag ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }} ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${tag}
+          docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${tag}
+          echo "Docker tags: ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}, ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${tag}"
