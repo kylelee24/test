@@ -8,7 +8,7 @@ on:
   pull_request:
     types: [ opened, synchronize ]
 jobs:
-  on-success:
+  build:
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     env:
       APPLICATION: radar-api
