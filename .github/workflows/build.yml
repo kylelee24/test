@@ -33,7 +33,7 @@ jobs:
           docker tag ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }} ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${tag}
           docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${tag}
       - name: Docker build and push (Pull Request)
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
           env
 
