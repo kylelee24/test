@@ -2,34 +2,10 @@ name: Deploy pull request environment
 
 # only trigger on pull request closed events
 on:
-  push:
-    branches-ignore:
-      - '**'
-  # pull_request:
-  #   types: [ opened ]
+  pull_request:
+    types: [ opened ]
 
 jobs:
-  build:
-    env:
-      APPLICATION: radar-api
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: Docker login
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.CONTAINER_REGISTRY }}
-          username: ${{ secrets.SERVICE_PRINCIPAL }}
-          password: ${{ secrets.SERVICE_PRINCIPAL_PASSWORD }}
-      - run: |
-          env=${GITHUB_HEAD_REF/\//-}
-          env=${env:0:10}
-          env=${env%-}
-
-          docker build . -t ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
-          docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
-          docker tag ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }} ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${env}
-          docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${env}
   deploy:
     runs-on: ubuntu-20.04
     steps:
