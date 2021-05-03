@@ -6,10 +6,10 @@ on:
     types: 
       - completed
   pull_request:
-    types: [ opened ]
+    types: [ opened, synchronize ]
 jobs:
   on-success:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     env:
       APPLICATION: radar-api
     runs-on: ubuntu-20.04
@@ -27,3 +27,4 @@ jobs:
           docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
           docker tag ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }} ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:latest
           docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
