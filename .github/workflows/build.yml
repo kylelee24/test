@@ -34,9 +34,7 @@ jobs:
       - name: Docker build and push (Pull Request)
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          tag=${GITHUB_HEAD_REF/\//-}
-          tag=${tag:0:10}
-          tag=${tag%-}
+          tag=`echo $GITHUB_HEAD_REF | md5sum | cut -c1-6`
           
           docker build . -t ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
           docker push ${{ secrets.CONTAINER_REGISTRY }}/${APPLICATION}:${{ github.sha }}
