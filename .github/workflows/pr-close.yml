@@ -40,4 +40,3 @@ jobs:
           terraform init -backend-config="storage_account_name=${{ secrets.TF_STATE_PR_STGACCT_NAME }}"  -backend-config="key=${env}-support.terraform.tfstate" -backend-config="resource_group_name=${{ secrets.TF_STATE_PR_RG_NAME }}"
           terraform destroy -var-file=env/pr.tfvars -var "oauth_google_key=${{ secrets.OAUTH_GOOGLE_KEY }}" -var "oauth_google_secret=${{ secrets.OAUTH_GOOGLE_SECRET }}" -var "postgresql_administrator_password=P@ssw0rd1234" -var "env=${env}" -auto-approve
         working-directory: ./terraform/radar-support
-      # TODO - Google OAUTH call back url deletion
